@@ -1,1 +1,778 @@
+```html
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>겨미겨미의 캠핑스토리 - 따뜻한 초록빛 기록</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Noto Sans KR', 'sans-serif'],
+            hand: ['Caveat', 'cursive'],
+          },
+          colors: {
+            forest: {
+              50: '#f4f7f5',
+              100: '#e5eee9',
+              200: '#ceddd5',
+              300: '#a7c2b4',
+              400: '#7ba08e',
+              500: '#5c8370',
+              600: '#476958',
+              700: '#3a5447',
+              800: '#30443a',
+              900: '#293a32',
+              950: '#15211c',
+            },
+            camp: {
+              orange: '#e67e22',
+              sand: '#f5ebe0',
+              dark: '#1e2522'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    .fire-glow {
+      box-shadow: 0 0 40px 10px rgba(230, 126, 34, 0.4);
+    }
+    .bg-stars {
+      background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #15211c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3a5447;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #5c8370;
+    }
+  </style>
+</head>
+<body class="bg-forest-950 text-gray-100 font-sans selection:bg-forest-500 selection:text-white">
+
+  <!-- Floating Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-forest-950/80 backdrop-blur-md border-b border-forest-900 py-4 px-6 md:px-12 flex justify-between items-center">
+    <a href="#" class="flex items-center gap-2 text-xl md:text-2xl font-bold text-forest-300 hover:text-white transition">
+      <i class="fa-solid fa-campground text-camp-orange animate-bounce"></i>
+      <span class="font-hand text-2xl md:text-3xl tracking-wider text-forest-100">Gyumi's Story</span>
+    </a>
+    
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
+      <a href="#about" class="hover:text-camp-orange transition-colors">겨미겨미 소개</a>
+      <a href="#gear" class="hover:text-camp-orange transition-colors">겨미의 장비</a>
+      <a href="#places" class="hover:text-camp-orange transition-colors">인생 캠핑장</a>
+      <a href="#journal" class="hover:text-camp-orange transition-colors">캠핑 일기</a>
+      <a href="#guestbook" class="bg-forest-700 hover:bg-forest-600 px-4 py-2 rounded-full text-xs transition">따뜻한 방명록</a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menu-btn" class="md:hidden text-2xl text-gray-200 focus:outline-none" aria-label="메뉴 열기">
+      <i class="fa-solid fa-bars-staggered"></i>
+    </button>
+  </nav>
+
+  <!-- Mobile Side Navigation Drawer -->
+  <div id="mobile-menu" class="fixed inset-0 bg-forest-950/95 z-50 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-center items-center gap-8 text-xl font-bold">
+    <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-300" aria-label="메뉴 닫기">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="#about" class="mobile-link text-forest-200 hover:text-camp-orange transition-colors">겨미겨미 소개</a>
+    <a href="#gear" class="mobile-link text-forest-200 hover:text-camp-orange transition-colors">겨미의 장비</a>
+    <a href="#places" class="mobile-link text-forest-200 hover:text-camp-orange transition-colors">인생 캠핑장</a>
+    <a href="#journal" class="mobile-link text-forest-200 hover:text-camp-orange transition-colors">캠핑 일기</a>
+    <a href="#guestbook" class="mobile-link bg-forest-700 hover:bg-forest-600 px-6 py-3 rounded-full text-base transition">따뜻한 방명록</a>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="relative min-h-screen bg-stars flex items-center justify-center overflow-hidden pt-20 px-4">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-forest-800/20 rounded-full filter blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-camp-orange/10 rounded-full filter blur-[120px] pointer-events-none"></div>
+
+    <div class="text-center z-10 max-w-3xl px-4">
+      <span class="inline-block bg-forest-900/80 border border-forest-700 px-4 py-2 rounded-full text-xs md:text-sm text-forest-300 uppercase tracking-widest mb-6">
+        <i class="fa-solid fa-fire-flame-curved text-camp-orange mr-2"></i> 아기자기 감성 캠퍼의 일상
+      </span>
+      <h1 class="text-4xl md:text-6xl font-black leading-tight tracking-tight mb-6">
+        겨미겨미의<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-forest-300 via-forest-100 to-camp-orange">낭만 가득 캠핑스토리</span>
+      </h1>
+      <p class="text-gray-400 text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+        안녕하세요! 숲과 밤하늘, 그리고 따뜻한 불멍을 지극히 사랑하는 '겨미겨미'입니다. 자연 속에서 담아온 소소하고 은은한 추억들을 이곳에 편안하게 채워갑니다.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+        <a href="#journal" class="w-full sm:w-auto bg-camp-orange hover:bg-opacity-90 text-white font-medium px-8 py-4 rounded-xl transition duration-300 shadow-lg shadow-camp-orange/20 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-feather"></i> 캠핑 스토리 읽기
+        </a>
+        <a href="#gear" class="w-full sm:w-auto bg-forest-800 hover:bg-forest-700 text-forest-200 hover:text-white border border-forest-600 font-medium px-8 py-4 rounded-xl transition duration-300 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-screwdriver-wrench"></i> 나의 최애 기어 모음
+        </a>
+      </div>
+    </div>
+
+    <!-- Visual Divider -->
+    <div class="absolute bottom-0 left-0 right-0 flex flex-col items-center">
+      <div class="relative w-16 h-16 bg-camp-orange rounded-full filter blur-xl opacity-30 animate-pulse mb-4"></div>
+      <svg class="w-full h-24 md:h-32 text-forest-900 fill-current" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0,96L120,85.3C240,75,480,53,720,53C960,53,1200,75,1320,85.3L1440,96L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path>
+      </svg>
+    </div>
+  </header>
+
+  <!-- Section Divider -->
+  <div class="bg-forest-900 h-1"></div>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+      <!-- Profile Card -->
+      <div class="md:col-span-5 bg-forest-900/60 border border-forest-800 p-8 rounded-3xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-forest-700/20 rounded-full filter blur-xl"></div>
+        <div class="flex flex-col items-center text-center">
+          <div class="w-32 h-32 rounded-full border-4 border-forest-700 overflow-hidden mb-6 flex items-center justify-center bg-forest-800 relative group">
+            <i class="fa-solid fa-ghost text-5xl text-forest-300 group-hover:scale-110 transition duration-300"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-2">겨미겨미 (Gyumi)</h3>
+          <p class="text-sm text-camp-orange font-medium tracking-wider mb-4"><i class="fa-solid fa-mug-hot"></i> 감성 캠핑 코디네이터</p>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6">
+            "복잡한 일상은 잠시 로그아웃! 산새 소리와 모닥불의 타닥타닥 타는 장작 소리를 배경 삼아 맛있는 커피를 내릴 때 살아있음을 느껴요."
+          </p>
+          
+          <div class="w-full grid grid-cols-3 gap-2 bg-forest-950/80 p-4 rounded-xl border border-forest-800/50">
+            <div class="text-center">
+              <span class="block text-xs text-gray-500 mb-1">출정 기록</span>
+              <span class="text-base font-bold text-forest-300">60+회</span>
+            </div>
+            <div class="text-center border-x border-forest-800">
+              <span class="block text-xs text-gray-500 mb-1">최선호 스타일</span>
+              <span class="text-base font-bold text-forest-300">미니멀 우드</span>
+            </div>
+            <div class="text-center">
+              <span class="block text-xs text-gray-500 mb-1">캠핑 MBTI</span>
+              <span class="text-base font-bold text-forest-300">CAMP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio Right -->
+      <div class="md:col-span-7 flex flex-col justify-center">
+        <span class="text-camp-orange font-bold text-sm tracking-widest uppercase mb-2">GYUMI'S CAMPING LIFE</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">자연의 리듬에 스며드는 시간</h2>
+        <p class="text-gray-400 leading-relaxed mb-8">
+          계절의 냄새를 가장 먼저 알아차릴 수 있는 곳, 바로 텐트 안입니다. 차가운 겨울 텐트 위로 떨어지는 빗소리나, 선선한 가을 바람을 맞으며 끓여 먹는 라면 한 그릇까지 모든 순간이 낭만이 됩니다. 저와 취향이 통하는 분들과 소중한 소통을 이어가고 싶습니다.
+        </p>
+
+        <!-- Preference Indicators -->
+        <div class="space-y-6">
+          <div>
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-gray-300 font-medium"><i class="fa-solid fa-tree mr-2"></i> 아늑하고 미니멀한 텐트 피칭</span>
+              <span class="text-camp-orange font-bold">95%</span>
+            </div>
+            <div class="w-full bg-forest-900 rounded-full h-2">
+              <div class="bg-camp-orange h-2 rounded-full" style="width: 95%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-gray-300 font-medium"><i class="fa-solid fa-mug-hot mr-2"></i> 캠핑 드립 커피 & 브런치 클래스</span>
+              <span class="text-camp-orange font-bold">88%</span>
+            </div>
+            <div class="w-full bg-forest-900 rounded-full h-2">
+              <div class="bg-camp-orange h-2 rounded-full" style="width: 88%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-gray-300 font-medium"><i class="fa-solid fa-cloud-moon mr-2"></i> 은은한 한밤중의 불멍 힐링</span>
+              <span class="text-camp-orange font-bold">99%</span>
+            </div>
+            <div class="w-full bg-forest-900 rounded-full h-2">
+              <div class="bg-camp-orange h-2 rounded-full" style="width: 99%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gear Section -->
+  <section id="gear" class="bg-forest-900/40 py-24 px-6 md:px-12 border-y border-forest-900">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-camp-orange font-bold text-sm tracking-widest uppercase mb-2">MY CAMPING EQUIPMENT</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-4">겨미겨미가 애끼는 완소 기어</h2>
+        <p class="text-gray-400">오랜 아웃도어 고민 끝에 골라 정착한 겨미겨미의 반려 캠핑 장비들을 소개합니다.</p>
+        
+        <div class="flex flex-wrap justify-center gap-2 mt-8">
+          <button onclick="filterGear('all')" class="gear-tab active bg-camp-orange text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium transition duration-300">전체보기</button>
+          <button onclick="filterGear('tent')" class="gear-tab bg-forest-800 text-forest-300 hover:text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium transition duration-300">텐트 & 타프</button>
+          <button onclick="filterGear('furniture')" class="gear-tab bg-forest-800 text-forest-300 hover:text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium transition duration-300">감성 퍼니처</button>
+          <button onclick="filterGear('cook')" class="gear-tab bg-forest-800 text-forest-300 hover:text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium transition duration-300">시그니처 식기</button>
+          <button onclick="filterGear('etc')" class="gear-tab bg-forest-800 text-forest-300 hover:text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium transition duration-300">조명 & 소품</button>
+        </div>
+      </div>
+
+      <!-- Gear Grid -->
+      <div id="gear-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Tent 1 -->
+        <div class="gear-item tent bg-forest-950 border border-forest-800/80 rounded-2xl overflow-hidden hover:border-forest-600 transition-all duration-300 group">
+          <div class="h-48 bg-forest-900 flex items-center justify-center relative overflow-hidden">
+            <i class="fa-solid fa-house-chimney-window text-5xl text-forest-400 group-hover:scale-110 transition duration-300"></i>
+            <span class="absolute top-3 left-3 bg-forest-800 text-forest-300 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded">Shelter</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-lg text-white mb-1 group-hover:text-camp-orange transition-colors">베이지 오두막 면텐트</h3>
+            <p class="text-xs text-gray-500 mb-4">숨쉬는 면으로 결로 없는 아늑한 보금자리</p>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-xs text-forest-400">애정도 ★★★★★</span>
+              <button onclick="openModal('dome')" class="text-xs text-camp-orange hover:underline">디테일 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Furniture 1 -->
+        <div class="gear-item furniture bg-forest-950 border border-forest-800/80 rounded-2xl overflow-hidden hover:border-forest-600 transition-all duration-300 group">
+          <div class="h-48 bg-forest-900 flex items-center justify-center relative overflow-hidden">
+            <i class="fa-solid fa-cubes text-5xl text-forest-400 group-hover:scale-110 transition duration-300"></i>
+            <span class="absolute top-3 left-3 bg-forest-800 text-forest-300 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded">Furniture</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-lg text-white mb-1 group-hover:text-camp-orange transition-colors">롤타입 우드 헥사 테이블</h3>
+            <p class="text-xs text-gray-500 mb-4">캠핑 요리를 더욱 근사하게 셋팅해주는 원목 테이블</p>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-xs text-forest-400">애정도 ★★★★☆</span>
+              <button onclick="openModal('chair')" class="text-xs text-camp-orange hover:underline">디테일 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cook 1 -->
+        <div class="gear-item cook bg-forest-950 border border-forest-800/80 rounded-2xl overflow-hidden hover:border-forest-600 transition-all duration-300 group">
+          <div class="h-48 bg-forest-900 flex items-center justify-center relative overflow-hidden">
+            <i class="fa-solid fa-coffee-pot text-5xl text-forest-400 group-hover:scale-110 transition duration-300"></i>
+            <span class="absolute top-3 left-3 bg-forest-800 text-forest-300 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded">Drip Pot</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-lg text-white mb-1 group-hover:text-camp-orange transition-colors">감성 샌드 드립 포트</h3>
+            <p class="text-xs text-gray-500 mb-4">아침 피톤치드와 함께 향긋한 커피 한 모금</p>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-xs text-forest-400">애정도 ★★★★★</span>
+              <button onclick="openModal('griddle')" class="text-xs text-camp-orange hover:underline">디테일 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Etc 1 -->
+        <div class="gear-item etc bg-forest-950 border border-forest-800/80 rounded-2xl overflow-hidden hover:border-forest-600 transition-all duration-300 group">
+          <div class="h-48 bg-forest-900 flex items-center justify-center relative overflow-hidden">
+            <i class="fa-solid fa-wand-magic-sparkles text-5xl text-forest-400 group-hover:scale-110 transition duration-300"></i>
+            <span class="absolute top-3 left-3 bg-forest-800 text-forest-300 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded">Lantern</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-lg text-white mb-1 group-hover:text-camp-orange transition-colors">에디슨 LED 미니 등</h3>
+            <p class="text-xs text-gray-500 mb-4">텐트 내부를 별빛처럼 수놓는 호롱불 무드 조명</p>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-xs text-forest-400">애정도 ★★★★★</span>
+              <button onclick="openModal('lamp')" class="text-xs text-camp-orange hover:underline">디테일 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Places Section -->
+  <section id="places" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Places Info Left -->
+      <div class="lg:col-span-5">
+        <span class="text-camp-orange font-bold text-sm tracking-widest uppercase mb-2">CAMPING MAP</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">겨미겨미 발걸음이 머문 자리</h2>
+        <p class="text-gray-400 leading-relaxed mb-8">
+          전국의 예쁜 숲속과 멋진 리버뷰 사이트를 고르고 골라 지도에 담았습니다. 겨미겨미가 힐링이 필요할 때마다 조용히 스며들었던 자연 속 스팟들입니다.
+        </p>
+
+        <div class="space-y-4">
+          <div class="flex gap-4 p-4 rounded-xl bg-forest-900/40 border border-forest-800 hover:border-forest-700 transition">
+            <div class="text-2xl text-camp-orange flex items-center justify-center"><i class="fa-solid fa-seedling"></i></div>
+            <div>
+              <h4 class="font-bold text-white text-base">제천 패밀리 숲속 계곡</h4>
+              <p class="text-xs text-gray-500 mt-1">한여름에도 시원한 얼음 계곡과 계단식 데크 사이트</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-4 rounded-xl bg-forest-900/40 border border-forest-800 hover:border-forest-700 transition">
+            <div class="text-2xl text-camp-orange flex items-center justify-center"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+            <div>
+              <h4 class="font-bold text-white text-base">태안 바람꽃 언덕 캠핑장</h4>
+              <p class="text-xs text-gray-500 mt-1">텐트에서 바라보는 환상적인 서해 노을과 바다바람</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-4 rounded-xl bg-forest-900/40 border border-forest-800 hover:border-forest-700 transition">
+            <div class="text-2xl text-camp-orange flex items-center justify-center"><i class="fa-solid fa-mountain-sun"></i></div>
+            <div>
+              <h4 class="font-bold text-white text-base">가평 별이 빛나는 밤 골짜기</h4>
+              <p class="text-xs text-gray-500 mt-1">밤하늘 은하수가 선명히 내려앉는 해발 고지대 사이트</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map Graphic Right -->
+      <div class="lg:col-span-7 bg-forest-900/50 rounded-3xl p-6 border border-forest-800 relative">
+        <div class="absolute -top-3 -right-3 bg-camp-orange text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg">Gyumi's Favorite</div>
+        <div class="rounded-2xl overflow-hidden bg-forest-950 aspect-[4/3] relative flex flex-col justify-between p-6">
+          <div class="absolute inset-0 opacity-20 pointer-events-none">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 0,100 Q 200,80 400,200 T 800,100" fill="none" stroke="white" stroke-width="2"/>
+              <path d="M 0,200 Q 300,180 500,280 T 1000,150" fill="none" stroke="white" stroke-width="1.5"/>
+            </svg>
+          </div>
+
+          <div class="z-10 flex justify-between items-start">
+            <div class="bg-forest-900/90 backdrop-blur border border-forest-800 px-4 py-2 rounded-xl">
+              <span class="text-[10px] text-gray-400 block">이달의 추천 캠핑장</span>
+              <span class="text-sm font-bold text-white"><i class="fa-solid fa-compass text-camp-orange mr-1"></i> 충북 제천 의림지 인근 숲</span>
+            </div>
+          </div>
+
+          <div class="z-10 bg-forest-900/95 border border-forest-800 rounded-2xl p-4 flex gap-4 items-center mt-auto">
+            <div class="w-16 h-16 bg-forest-800 rounded-xl flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-mountain-sun text-3xl text-forest-300"></i>
+            </div>
+            <div class="grow">
+              <div class="flex items-center gap-2">
+                <span class="bg-camp-orange text-[9px] text-white font-bold px-1.5 py-0.5 rounded">NEW SPOT</span>
+                <h4 class="font-bold text-sm text-white">제천 숲속 계곡</h4>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">충북 제천시 / 계곡 바로 앞 독립 데크 / 노지 무드</p>
+            </div>
+            <a href="https://map.naver.com" target="_blank" rel="noopener noreferrer" class="bg-forest-700 hover:bg-forest-600 w-10 h-10 rounded-full flex items-center justify-center text-white transition shrink-0" aria-label="네이버 지도 열기">
+              <i class="fa-solid fa-map-pin text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journal Section -->
+  <section id="journal" class="bg-forest-900/30 py-24 px-6 md:px-12 border-t border-forest-900">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
+        <div>
+          <span class="text-camp-orange font-bold text-sm tracking-widest uppercase mb-2">CAMPING DIARY</span>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white">겨미겨미의 낭만 한 조각</h2>
+        </div>
+        <span class="text-xs text-gray-400 border border-forest-800 px-4 py-2 rounded-full"><i class="fa-solid fa-campground text-camp-orange mr-1"></i> 소소하지만 따뜻한 발자취</span>
+      </div>
+
+      <!-- Journal Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Post 1 -->
+        <div class="bg-forest-950 border border-forest-900 rounded-2xl overflow-hidden hover:-translate-y-2 transition-transform duration-300 shadow-xl">
+          <div class="h-52 bg-forest-900/60 flex flex-col justify-between p-6 relative">
+            <span class="bg-forest-800/80 backdrop-blur text-forest-300 text-xs px-3 py-1 rounded-full w-max">2026.06.01</span>
+            <div>
+              <span class="text-xs text-camp-orange font-bold uppercase tracking-wider block mb-1">Summer Mood</span>
+              <h3 class="text-lg font-bold text-white leading-snug">초여름 제천 숲속, 발을 담그며 맞이한 쉼</h3>
+            </div>
+          </div>
+          <div class="p-6 border-t border-forest-900">
+            <p class="text-sm text-gray-400 leading-relaxed mb-4">
+              싱그러운 나뭇잎 사이로 내리쬐는 투명한 햇살 아래, 차가운 제천 계곡물에 발을 폭 담그고 마시는 핸드드립 커피는 그 무엇과도 비교할 수 없는 호사였습니다.
+            </p>
+            <div class="flex justify-between items-center text-xs text-gray-500">
+              <span><i class="fa-solid fa-heart text-red-500 mr-1"></i> 64 Likes</span>
+              <span>수다 10개</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post 2 -->
+        <div class="bg-forest-950 border border-forest-900 rounded-2xl overflow-hidden hover:-translate-y-2 transition-transform duration-300 shadow-xl">
+          <div class="h-52 bg-forest-900/60 flex flex-col justify-between p-6 relative">
+            <span class="bg-forest-800/80 backdrop-blur text-forest-300 text-xs px-3 py-1 rounded-full w-max">2026.04.12</span>
+            <div>
+              <span class="text-xs text-camp-orange font-bold uppercase tracking-wider block mb-1">Flower Camping</span>
+              <h3 class="text-lg font-bold text-white leading-snug">흐드러진 벚꽃 아래 태안 바람에 날린 벚꽃 캠프</h3>
+            </div>
+          </div>
+          <div class="p-6 border-t border-forest-900">
+            <p class="text-sm text-gray-400 leading-relaxed mb-4">
+              바다와 벚꽃이 어우러진 태안에서 특별한 주말을 보냈어요. 텐트 사이트로 쏟아지는 꽃비와 붉은 낙조의 황홀한 콜라보레이션에 눈을 뗄 수 없었답니다.
+            </p>
+            <div class="flex justify-between items-center text-xs text-gray-500">
+              <span><i class="fa-solid fa-heart text-red-500 mr-1"></i> 72 Likes</span>
+              <span>수다 19개</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post 3 -->
+        <div class="bg-forest-950 border border-forest-900 rounded-2xl overflow-hidden hover:-translate-y-2 transition-transform duration-300 shadow-xl">
+          <div class="h-52 bg-forest-900/60 flex flex-col justify-between p-6 relative">
+            <span class="bg-forest-800/80 backdrop-blur text-forest-300 text-xs px-3 py-1 rounded-full w-max">2026.01.18</span>
+            <div>
+              <span class="text-xs text-camp-orange font-bold uppercase tracking-wider block mb-1">Frozen Camping</span>
+              <h3 class="text-lg font-bold text-white leading-snug">가평의 영하 10도, 낭만적인 겨울 왕국 동계 캠핑</h3>
+            </div>
+          </div>
+          <div class="p-6 border-t border-forest-900">
+            <p class="text-sm text-gray-400 leading-relaxed mb-4">
+              등유난로의 뜨듯한 열기에 몸을 녹이며, 소복한 눈길 위에 남긴 부츠 발자국. 차가운 공기와 화롯대의 매캐하면서도 향긋한 연기가 어우러지던 한겨울 밤입니다.
+            </p>
+            <div class="flex justify-between items-center text-xs text-gray-500">
+              <span><i class="fa-solid fa-heart text-red-500 mr-1"></i> 85 Likes</span>
+              <span>수다 24개</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guestbook Section -->
+  <section id="guestbook" class="py-24 px-6 md:px-12 max-w-4xl mx-auto">
+    <div class="bg-forest-900/40 border border-forest-800 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-32 h-32 bg-camp-orange/5 rounded-full filter blur-2xl"></div>
+      
+      <div class="text-center mb-10">
+        <i class="fa-solid fa-candy-cane text-3xl text-camp-orange mb-4"></i>
+        <h2 class="text-3xl font-extrabold mb-2">겨미겨미 캠프파이어 정거장</h2>
+        <p class="text-gray-400 text-sm">놀러오신 이웃님들, 불 옆에서 잠시 수다 떨며 한마디 남겨주세요!</p>
+      </div>
+
+      <!-- Guestbook Form -->
+      <form id="comment-form" onsubmit="addComment(event)" class="space-y-4 mb-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="username" class="block text-xs font-bold text-gray-400 mb-1">나의 닉네임</label>
+            <input type="text" id="username" required placeholder="예: 꼬마오리" class="w-full bg-forest-950 border border-forest-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-camp-orange transition">
+          </div>
+          <div>
+            <label for="style" class="block text-xs font-bold text-gray-400 mb-1">우리 캠핑 스타일</label>
+            <select id="style" class="w-full bg-forest-950 border border-forest-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-camp-orange transition">
+              <option value="🏕️ 오토캠핑 파">🏕️ 오토캠퍼</option>
+              <option value="🎒 백패킹 파">🎒 백패커</option>
+              <option value="🚐 미니카 & 차박러">🚐 차박러</option>
+              <option value="🔥 온리 불멍 파">🔥 불멍러</option>
+              <option value="🌲 힐링 미니멀 파">🌲 미니멀러</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="message" class="block text-xs font-bold text-gray-400 mb-1">남길 메시지</label>
+          <textarea id="message" rows="3" required placeholder="같이 맛나는 요리 이야기나 겨미님 장비 팁 나누고 가요!" class="w-full bg-forest-950 border border-forest-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-camp-orange transition resize-none"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-camp-orange hover:bg-opacity-95 text-white font-bold py-3 rounded-xl text-sm transition">
+          <i class="fa-solid fa-envelope-open-text mr-2"></i> 캠핑 정거장에 글 남기기
+        </button>
+      </form>
+
+      <!-- Guestbook Feed -->
+      <div id="messages-container" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+        <!-- Init Comment 1 -->
+        <div class="bg-forest-950/70 border border-forest-800 p-4 rounded-xl flex flex-col gap-2">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm text-white">커피향기</span>
+              <span class="bg-forest-800 text-forest-300 text-[10px] px-2 py-0.5 rounded-full">🌲 힐링 미니멀 파</span>
+            </div>
+            <span class="text-[10px] text-gray-500">방금 전</span>
+          </div>
+          <p class="text-sm text-gray-300">겨미님 드립 포트 색상 취향저격이네요! 혹시 스펙창에 있는 미니 램프랑 궁합 어떤지 궁금해요.</p>
+        </div>
+        <!-- Init Comment 2 -->
+        <div class="bg-forest-950/70 border border-forest-800 p-4 rounded-xl flex flex-col gap-2">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm text-white">숲지기</span>
+              <span class="bg-forest-800 text-forest-300 text-[10px] px-2 py-0.5 rounded-full">🏕️ 오토캠핑 파</span>
+            </div>
+            <span class="text-[10px] text-gray-500">3시간 전</span>
+          </div>
+          <p class="text-sm text-gray-300">태안 바람꽃 언덕 캠핑장 진짜 저녁에 노을이 장난아니죠! 포스팅 보고 가보고싶어졌습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-forest-950 border-t border-forest-900 py-12 px-6 text-center text-gray-500 text-xs">
+    <div class="max-w-6xl mx-auto flex flex-col items-center gap-6">
+      <a href="#" class="font-hand text-2xl tracking-wider text-forest-300">Gyumi's Camping Story</a>
+      <p class="max-w-md leading-relaxed text-gray-400">
+        "마음의 장작에 낭만의 불을 지피는 시간."<br>
+        겨미겨미의 소중한 캠핑 아카이브이자 놀이터입니다.
+      </p>
+      <div class="flex gap-4 text-sm">
+        <a href="#" class="hover:text-camp-orange transition" aria-label="인스타그램"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="hover:text-camp-orange transition" aria-label="유튜브"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="hover:text-camp-orange transition" aria-label="블로그"><i class="fa-solid fa-square-rss"></i></a>
+      </div>
+      <p>© 2026 Gyumi's Camping Story. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Detail Information Modal -->
+  <div id="detail-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-forest-900 border border-forest-800 w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl relative">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl" aria-label="모달 닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="p-8">
+        <div id="modal-icon-container" class="w-16 h-16 rounded-full bg-forest-800 flex items-center justify-center mb-6 text-camp-orange text-3xl">
+          <i class="fa-solid fa-house"></i>
+        </div>
+        <h3 id="modal-title" class="text-2xl font-bold text-white mb-2">장비 세부스펙</h3>
+        <p id="modal-category" class="text-xs text-camp-orange font-bold uppercase tracking-wider mb-4">Shelter</p>
+        <p id="modal-desc" class="text-gray-300 text-sm leading-relaxed mb-6">
+          기어 상세 설명
+        </p>
+
+        <!-- Dynamic Specs -->
+        <div id="modal-specs" class="bg-forest-950/80 p-4 rounded-xl border border-forest-800 space-y-2 text-xs text-gray-400 mb-6">
+        </div>
+
+        <button onclick="closeModal()" class="w-full bg-forest-800 hover:bg-forest-700 text-white font-medium py-3 rounded-xl transition text-sm">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="alert-box" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-forest-900 border border-forest-700 text-white text-sm px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+    <i class="fa-solid fa-heart text-camp-orange text-lg"></i>
+    <span id="alert-message">메시지</span>
+  </div>
+
+  <script>
+    // Navigation Scroll Shadow
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('shadow-lg', 'py-3');
+        nav.classList.remove('py-4');
+      } else {
+        nav.classList.remove('shadow-lg', 'py-3');
+        nav.classList.add('py-4');
+      }
+    });
+
+    // Mobile Navigation Drawer Control
+    const menuBtn = document.getElementById('menu-btn');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('translate-x-full');
+    });
+
+    closeMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('translate-x-full');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('translate-x-full');
+      });
+    });
+
+    // Gear Tab Filter
+    function filterGear(category) {
+      const items = document.querySelectorAll('.gear-item');
+      const tabs = document.querySelectorAll('.gear-tab');
+      
+      tabs.forEach(tab => {
+        tab.classList.remove('active', 'bg-camp-orange', 'text-white');
+        tab.classList.add('bg-forest-800', 'text-forest-300');
+      });
+      event.target.classList.add('active', 'bg-camp-orange', 'text-white');
+      event.target.classList.remove('bg-forest-800', 'text-forest-300');
+
+      items.forEach(item => {
+        if (category === 'all' || item.classList.contains(category)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Modal Gear Data
+    const gearDetails = {
+      dome: {
+        title: "베이지 오두막 면텐트",
+        category: "TENT & TARP",
+        icon: "fa-house-chimney-window",
+        desc: "면 65%, 폴리 35%로 조화롭게 배합되어 결로가 아주 적은 감성 하우스입니다. 겨울에는 따뜻한 온기가 머물고 여름에는 시원하고 보송하게 쾌적함을 유지시켜 주어 겨미겨미의 일등 공신 최애 텐트로 꼽힙니다.",
+        specs: [
+          "스킨 규격: 320 x 250 x 175cm (사용시)",
+          "중량: 약 12.5kg (수납 시 콤팩트 가방 보관)",
+          "패브릭 재질: 프리미엄 T/C 면혼방 (발수/방오 마감)",
+          "추천 정원: 커플 및 솔로 오토캠핑 최적화"
+        ]
+      },
+      chair: {
+        title: "롤타입 우드 헥사 테이블",
+        category: "FURNITURE",
+        icon: "fa-cubes",
+        desc: "부드럽고 튼튼한 너도밤나무 원목을 섬세하게 폴딩하여 우드 감성의 상단 테이블 구조를 만듭니다. 안정적인 육각 기둥 배치 덕분에 야외 불멍 화롯대와 함께 활용하기에 아주 완벽한 밸런스를 이룹니다.",
+        specs: [
+          "상판 크기: 지름 90cm, 높이 40cm (로우 모드)",
+          "재질: 최고급 천연 너도밤나무 (우레탄 코팅)",
+          "적재 중중: 최대 80kg",
+          "특징: 고퀄리티 헤비 캔버스 가방 동봉"
+        ]
+      },
+      griddle: {
+        title: "감성 샌드 드립 포트",
+        category: "COOKWARE & COFFEE",
+        icon: "fa-coffee-pot",
+        desc: "정갈한 샌드베이지 컬러로 코팅된 드립 포트입니다. 주둥이 끝이 물줄기 조절에 특화되어 있어 텐트 앞 벤치에 앉아 조용히 모닝 에티오피아 원두 드립을 내리기에 아주 유용한 스페셜티 툴입니다.",
+        specs: [
+          "용량: 600ml (커피 2잔 여유롭게 드립 가능)",
+          "본체 재질: 304 식품용 최고급 스테인리스 스틸",
+          "두께 및 내부 마감: 특수 테프론 무광 매트 코팅",
+          "안전 사양: 전용 내열 우드 핸들 그립"
+        ]
+      },
+      lamp: {
+        title: "에디슨 LED 미니 등",
+        category: "LIGHTING",
+        icon: "fa-wand-magic-sparkles",
+        desc: "필라멘트 조명만의 노르스름하고 포근한 기운을 가득 담은 빈티지 전등입니다. 바람 부는 고요한 밤에 타프 기둥이나 랜턴 걸이에 대롱대롱 매달아 두면 밤하늘의 낭만이 200% 충전됩니다.",
+        specs: [
+          "밝기 사양: 15 ~ 200 Lumens (미세 휠 조절방식)",
+          "배터리 구성: 3600mAh 고효율 내장 배터리",
+          "충전 및 수명: USB Type-C 포트 / 최대 80시간 지속",
+          "마감: 빈티지 청동 브론즈 프레임"
+        ]
+      }
+    };
+
+    const modal = document.getElementById('detail-modal');
+    function openModal(key) {
+      const data = gearDetails[key];
+      if (!data) return;
+
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-category').textContent = data.category;
+      document.getElementById('modal-desc').textContent = data.desc;
+      document.getElementById('modal-icon-container').innerHTML = `<i class="fa-solid ${data.icon}"></i>`;
+      
+      const specsContainer = document.getElementById('modal-specs');
+      specsContainer.innerHTML = '';
+      data.specs.forEach(spec => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-2 border-b border-forest-900/40 pb-1';
+        div.innerHTML = `<i class="fa-solid fa-seedling text-camp-orange text-[8px]"></i> <span>${spec}</span>`;
+        specsContainer.appendChild(div);
+      });
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Alert toast
+    function showAlert(msg) {
+      const alertBox = document.getElementById('alert-box');
+      const alertMsg = document.getElementById('alert-message');
+      
+      alertMsg.textContent = msg;
+      alertBox.classList.remove('translate-y-20', 'opacity-0');
+      alertBox.classList.add('translate-y-0', 'opacity-100');
+      
+      setTimeout(() => {
+        alertBox.classList.remove('translate-y-0', 'opacity-100');
+        alertBox.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Comment Functionality
+    function addComment(event) {
+      event.preventDefault();
+      
+      const usernameInput = document.getElementById('username');
+      const styleInput = document.getElementById('style');
+      const messageInput = document.getElementById('message');
+      
+      const username = usernameInput.value.trim();
+      const style = styleInput.value;
+      const message = messageInput.value.trim();
+      
+      if(!username || !message) return;
+
+      const container = document.getElementById('messages-container');
+      
+      const div = document.createElement('div');
+      div.className = 'bg-forest-950/70 border border-forest-800 p-4 rounded-xl flex flex-col gap-2 transform transition scale-95 opacity-0 duration-300';
+      div.innerHTML = `
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-sm text-white">${username}</span>
+            <span class="bg-forest-800 text-forest-300 text-[10px] px-2 py-0.5 rounded-full">${style}</span>
+          </div>
+          <span class="text-[10px] text-gray-500">방금 전</span>
+        </div>
+        <p class="text-sm text-gray-300">${message}</p>
+      `;
+
+      container.insertBefore(div, container.firstChild);
+      
+      setTimeout(() => {
+        div.classList.remove('scale-95', 'opacity-0');
+        div.classList.add('scale-100', 'opacity-100');
+      }, 50);
+
+      usernameInput.value = '';
+      messageInput.value = '';
+      
+      showAlert("🔥 정거장 방명록이 소중하게 배달되었습니다!");
+    }
+  </script>
+</body>
+</html>
+
+```
 
